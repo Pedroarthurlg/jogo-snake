@@ -12,7 +12,7 @@
 #define SNAKE_COLOR_HEAD GREEN 
 #define SNAKE_COLOR DARKGREEN
 #define FOOD_COLOR BLACK
-#define MAX_BARREIRAS 40  // Número máximo de barreiras no jogo
+#define MAX_BARREIRAS 6  // Número de barreiras fixas no jogo
 
 
 typedef struct Segmento {
