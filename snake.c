@@ -23,15 +23,31 @@ void IniciaBordas(Jogo *j){
     j->bordas[3].pos = (Rectangle){0, 0, 10, ALTURA};
 }
 
-void IniciaFood(Jogo *j){
-    j->food.pos = (Rectangle){
-        (float)(rand() % ((ALTURA - 20 - 10) / STD_SIZE_Y) * STD_SIZE_Y + 10),
-        (float)(rand() % ((ALTURA - 20 - 10) / STD_SIZE_Y) * STD_SIZE_Y + 10),
-        STD_SIZE_X, STD_SIZE_Y
-    };
+void IniciaFood(Jogo *j) {
+    int valido;
+    do {
+        valido = 1;
+        j->food.pos = (Rectangle){
+            (float)(rand() % ((LARGURA - 30) / STD_SIZE_X) * STD_SIZE_X + 10),
+            (float)(rand() % ((ALTURA - 30) / STD_SIZE_Y) * STD_SIZE_Y + 10),
+            STD_SIZE_X, 
+            STD_SIZE_Y
+        };
+        
+        // Verifica se não está na cobra
+        Segmento *aux = j->head;
+        while (aux != NULL) {
+            if (CheckCollisionRecs(j->food.pos, aux->pos)) {
+                valido = 0;
+                break;
+            }
+            aux = aux->prox;
+        }
+    } while (!valido);
     
-    j->food.color=FOOD_COLOR;
+    j->food.color = FOOD_COLOR;
 }
+
 void LiberaImagens(){
     UnloadTexture(maca);
 }
@@ -144,3 +160,16 @@ int ColisaoCorpo(Jogo *j){
     return 0;
 }
 
+void LiberaSnake(Jogo *j) {
+    Segmento *aux = j->head;
+    
+    while (aux != NULL) {
+        Segmento *temp = aux;
+        aux = aux->prox;
+        free(temp);
+    }
+    
+    // Importante: reseta os ponteiros
+    j->head = NULL;
+    j->cauda = NULL;
+}
