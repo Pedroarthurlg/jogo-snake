@@ -172,20 +172,8 @@ void DesenhaBarreiras(Jogo *j){
                 }
             }
         } else {
-            // Padrão listrado horizontal para barreiras centrais
-            for (int bx = 0; bx < j->barreiras[i].pos.width; bx += STD_SIZE_X) {
-                for (int by = 0; by < j->barreiras[i].pos.height; by += STD_SIZE_Y) {
-                    int row = by / STD_SIZE_Y;
-                    Color cor = (row % 2 == 0) ? WHITE : RED;
-                    
-                    DrawRectangle(
-                        j->barreiras[i].pos.x + bx, 
-                        j->barreiras[i].pos.y + by, 
-                        STD_SIZE_X, STD_SIZE_Y, 
-                        cor
-                    );
-                }
-            }
+            // Barreiras centrais totalmente vermelhas
+            DrawRectangleRec(j->barreiras[i].pos, RED);
         }
     }
 }
@@ -224,7 +212,7 @@ void MoveSnake(Jogo *j){
     if (j->direcao == 2) j->head->pos.y += STD_SIZE_Y;
     if (j->direcao == 3) j->head->pos.x -= STD_SIZE_X;
 
-    // Teleporte
+    // Efeito wrap-around (aparecer do outro lado)
     // Borda superior/inferior
     if (j->head->pos.y < 10) {
         j->head->pos.y = ALTURA - STD_SIZE_Y - 10;
@@ -285,8 +273,6 @@ int ColisaoCorpo(Jogo *j){
     return 0;
 }
 
-
-// desaloca a cobra
 void LiberaSnake(Jogo *j) {
     Segmento *aux = j->head;
     
@@ -295,6 +281,8 @@ void LiberaSnake(Jogo *j) {
         aux = aux->prox;
         free(temp);
     }
+    
+    // Importante: reseta os ponteiros
     j->head = NULL;
     j->cauda = NULL;
 }
