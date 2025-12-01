@@ -12,6 +12,7 @@
 #define SNAKE_COLOR_HEAD GREEN 
 #define SNAKE_COLOR DARKGREEN
 #define FOOD_COLOR BLACK
+#define MAX_BARREIRAS 40  // Número máximo de barreiras no jogo
 
 
 typedef struct Segmento {
@@ -29,11 +30,18 @@ typedef struct Food{
     Texture2D textura;
 } Food;
 
+typedef struct Barreira{
+    Rectangle pos;
+    Color color;
+} Barreira;
+
 typedef struct Jogo{
     Segmento *head;
     Segmento *cauda;
     Food food;
     Bordas bordas[4];
+    Barreira barreiras[MAX_BARREIRAS];
+    int num_barreiras;
     double tempo;
     double cooldown;
     int direcao;
@@ -45,16 +53,18 @@ void IniciaBody(Jogo *j);
 void AumentaBody(Jogo * j);
 void IniciaBordas(Jogo *j);
 void IniciaFood(Jogo *j);
+void IniciaBarreiras(Jogo *j);
 void IniciaJogo(Jogo *j);
 void DesenhaBody(Jogo *j);
 void DesenhaFood(Jogo *j);
 void DesenhaBordas(Jogo *j);
+void DesenhaBarreiras(Jogo *j);
 void DesenhaJogo(Jogo *j);
 void AtualizaDirecao(Jogo *j);
 void MoveSnake(Jogo *j);
 void AtualizaRodada(Jogo *j);
 int ColisaoFood(Jogo *j);
-int ColisaoBordas(Jogo *j);
+int ColisaoBarreiras(Jogo *j);
 int ColisaoCorpo(Jogo *j);
 void CarregaImagens();
 void LiberaImagens();
