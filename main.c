@@ -42,6 +42,7 @@ int main(){
         DrawText("Aperte ENTER para reiniciar", 110, 450, 30, WHITE);
 
         if (IsKeyPressed(KEY_ENTER)){
+            LiberaSnake(&jogo);
             IniciaJogo(&jogo);
             gameOver = 1;
         }

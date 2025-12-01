@@ -58,5 +58,6 @@ int ColisaoBordas(Jogo *j);
 int ColisaoCorpo(Jogo *j);
 void CarregaImagens();
 void LiberaImagens();
+void LiberaSnake(Jogo *j);
 
 #endif
